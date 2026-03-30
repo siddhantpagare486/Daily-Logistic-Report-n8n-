@@ -1,4 +1,4 @@
-DA05-Integrated-Operations-Analysis
+Integrated Operations Analysis
 
 📊 Manufacturing Operations Analytics + Automation (SQL, Excel, Power BI, n8n, GenAI)
 
@@ -46,28 +46,23 @@ AI-generated summary
 <p align="center"> <img src="https://github.com/user-attachments/assets/c49d4fe8-ae0e-46b5-a4c9-7f41f5623561" width="800"> </p>
 🔹 Automated Report Output
 <p align="center"> <img src="https://github.com/user-attachments/assets/e9c0cdac-eb0c-4367-9352-633bea2d4c6f" width="500"> </p>
-🔹 Additional Output
-<p align="center"> <img src="https://github.com/user-attachments/assets/61b259e1-a3e9-457b-8ced-5fbd24698005" width="500"> </p>
+
 🛠️ Tech Stack
+
 Tool	Purpose
-SQL (PostgreSQL/Colab)	Data extraction & transformation
-Excel	Data cleaning & EDA
-Power BI	Dashboard & visualization
 n8n	Workflow automation
-GenAI (LLM)	Automated summaries & explanations
+Groq (LLaMA3-70b)	AI summary generation
+Google Drive	CSV data hosting
+Gmail	Report delivery
+
 🚀 How to Run
-Load datasets into SQL and perform ETL
-Export cleaned data to Excel for analysis
-Build Power BI dashboard using processed data
-Set up n8n workflows:
-Add data source (CSV/SQL)
-Configure GenAI API
-Set triggers (cron/webhook)
-Activate workflows for automated reporting
-🎯 Conclusion
-Reduced manual reporting effort by ~35–40%
-Enabled real-time insights and automated decision support
-Improved operational efficiency and visibility across logistics and payments
+
+Import workflow/logistics_report.workflow.json into n8n
+Set up credentials — Groq API key + Gmail OAuth
+Upload your CSV to Google Drive
+Update the HTTP Request URL with your file link
+Activate the workflow — report runs daily at 8AM
+
 👤 Author
 
 Siddhant Pagare
