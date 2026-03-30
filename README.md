@@ -1,17 +1,8 @@
-🚀 Integrated Operations Analysis
-<p align="center">
+# 🚀 Integrated Operations Analysis
 
+## 📊 Manufacturing Operations Analytics + Automation</b><br> (SQL, Excel, Power BI, n8n, GenAI) 
 
-
-
-
-
-
-
-
-
-</p> <p align="center"> <b>📊 Manufacturing Operations Analytics + Automation</b><br> (SQL, Excel, Power BI, n8n, GenAI) </p>
-📌 Project Overview
+### 📌 Project Overview
 
 An end-to-end data analytics + automation project built on a manufacturing dataset to:
 
@@ -21,7 +12,7 @@ Automate reporting using n8n + GenAI
 
 👉 Designed to simulate real-world business decision systems used in modern companies.
 
-🚨 Problem Statement
+### 🚨 Problem Statement
 
 Manufacturing operations face major challenges due to fragmented data across shipments, payments, customers, and employees:
 
@@ -31,7 +22,7 @@ Manufacturing operations face major challenges due to fragmented data across shi
 
 💡 Goal: Build a system that converts raw data into automated insights + intelligent reports.
 
-⚙️ End-to-End Workflow
+### ⚙️ End-to-End Workflow
 🔹 1. Schedule Trigger
 
 ⏰ Runs daily at 8:00 AM using n8n cron
@@ -55,6 +46,7 @@ Detect critical issues (>20% failure)
 Link COD pending to undelivered shipments
 Identify worst-performing segment
 Generate recommendations
+
 🔹 5. Automated Reporting
 
 📧 Sends AI-generated report via Gmail
@@ -73,16 +65,17 @@ Shipment metrics
 Payment data
 Segment breakdown
 Delivery performance
-⚡ Output
+
+### ⚡ Output
 Automated daily summaries
 Bottleneck detection
 Smart recommendations
 
-💬 Sample Insight:
+### 💬 Sample Insight:
 
 “Domestic Express shipments show critical delays (>20% failure). COD payments are pending due to undelivered shipments. Immediate operational intervention required.”
 
-🛠️ Tech Stack
+### 🛠️ Tech Stack
 Category	Tools
 Data Processing	SQL, Excel
 Visualization	Power BI
@@ -91,13 +84,13 @@ AI	Groq (LLaMA3-70B)
 Data Source	Google Drive
 Delivery	Gmail
 🚀 How to Run
-# 1. Import workflow into n8n
-# 2. Add credentials (Groq API + Gmail)
-# 3. Upload CSV to Google Drive
-# 4. Update HTTP request URL
-# 5. Activate workflow
+ 1. Import workflow into n8n
+ 2. Add credentials (Groq API + Gmail)
+ 3. Upload CSV to Google Drive
+ 4. Update HTTP request URL
+ 5. Activate workflow
 
-📌 Workflow will run automatically every day at 8:00 AM
+### 📌 Workflow will run automatically every day at 8:00 AM
 
 📈 Business Impact
 ⚡ Reduced manual reporting by 35–40%
