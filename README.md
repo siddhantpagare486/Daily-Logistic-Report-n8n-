@@ -50,17 +50,25 @@ AI-generated summary
 🛠️ Tech Stack
 
 Tool	Purpose
+
 n8n	Workflow automation
+
 Groq (LLaMA3-70b)	AI summary generation
+
 Google Drive	CSV data hosting
+
 Gmail	Report delivery
 
 🚀 How to Run
 
 Import workflow/logistics_report.workflow.json into n8n
+
 Set up credentials — Groq API key + Gmail OAuth
+
 Upload your CSV to Google Drive
+
 Update the HTTP Request URL with your file link
+
 Activate the workflow — report runs daily at 8AM
 
 👤 Author
