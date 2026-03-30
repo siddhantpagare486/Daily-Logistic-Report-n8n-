@@ -22,7 +22,7 @@ Fetches the latest logistics data from a static CSV file hosted on Google Drive 
 
 3. 🔧 Code Node — Parse & Structure Data
 
-Parses the raw CSV key-value format into a clean JSON object and calculates:
+Parses the raw CSV into a clean JSON format and calculates:
 
 Delivery rate (%) per segment
 Not delivered count per segment
@@ -41,17 +41,13 @@ Sends a formatted HTML email to the operations team with:
 
 Data snapshot table
 AI-generated summary
-
 📸 Screenshots
-n8n Workflow
-
-<img width="1277" height="516" alt="objective 1 workflow" src="https://github.com/user-attachments/assets/c49d4fe8-ae0e-46b5-a4c9-7f41f5623561" />
-
-Automated Report Output
-
-<img width="576" height="620" alt="objective 1 output" src="https://github.com/user-attachments/assets/e9c0cdac-eb0c-4367-9352-633bea2d4c6f" />
-
-
+🔹 n8n Workflow
+<p align="center"> <img src="https://github.com/user-attachments/assets/c49d4fe8-ae0e-46b5-a4c9-7f41f5623561" width="800"> </p>
+🔹 Automated Report Output
+<p align="center"> <img src="https://github.com/user-attachments/assets/e9c0cdac-eb0c-4367-9352-633bea2d4c6f" width="500"> </p>
+🔹 Additional Output
+<p align="center"> <img src="https://github.com/user-attachments/assets/61b259e1-a3e9-457b-8ced-5fbd24698005" width="500"> </p>
 🛠️ Tech Stack
 Tool	Purpose
 SQL (PostgreSQL/Colab)	Data extraction & transformation
@@ -68,11 +64,10 @@ Add data source (CSV/SQL)
 Configure GenAI API
 Set triggers (cron/webhook)
 Activate workflows for automated reporting
-<img width="576" height="620" alt="objective 1 output" src="https://github.com/user-attachments/assets/61b259e1-a3e9-457b-8ced-5fbd24698005" />
-
 🎯 Conclusion
 Reduced manual reporting effort by ~35–40%
 Enabled real-time insights and automated decision support
 Improved operational efficiency and visibility across logistics and payments
 👤 Author
+
 Siddhant Pagare
