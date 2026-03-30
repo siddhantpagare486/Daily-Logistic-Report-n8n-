@@ -12,58 +12,51 @@ Inefficient manual reporting and delayed insights
 Lack of real-time visibility into operations
 Difficulty in identifying bottlenecks in shipments and payments
 
-This project solves these challenges by combining data analytics + dashboards + AI automation to deliver actionable insights and automated reporting.
+⚙️ Workflow Steps
+1. ⏰ Schedule Trigger
+Fires automatically every day at 8:00 AM using n8n's built-in cron scheduler.
 
-⚙️ Workflow Overview
-1. 📥 Data Extraction (SQL ETL)
-Loaded multiple datasets (Customer, Shipment, Payment, Employee, Status) into SQL
-Performed data cleaning, normalization, and transformations
-2. 🔧 Data Processing & Analysis (Excel)
-Handled missing values and duplicates
-Performed EDA to identify trends in shipments, payments, and customer behavior
-Created calculated fields like payment categories and shipment efficiency
-3. 📊 Dashboarding (Power BI)
+2. 📥 HTTP Request — Fetch CSV
+Fetches the latest logistics data from a static CSV file hosted on Google Drive using a direct download URL.
 
-Built an interactive dashboard including:
+3. 🔧 Code Node — Parse & Structure Data
+Parses the raw CSV key-value format into a clean JSON object. Also calculates derived metrics:
 
-Customer segmentation and insights
-Employee performance tracking
-Shipment analysis (Domestic vs International, Express vs Regular)
-Financial overview (payments, pending amounts, trends)
-4. 🤖 Automation (n8n + GenAI)
-✅ Workflow 1: Daily Operations Summary
-Triggered daily using cron
-Fetches aggregated metrics
-Uses GenAI to generate a simple summary
-Sends report via email/Slack
-✅ Workflow 2: AI Issue Explanation System
-Takes Shipment ID / Customer ID as input
-Fetches related data
-Uses GenAI to explain delays or payment issues in plain language
+Delivery rate % per segment
+Not delivered count per segment
+Total pending payments
+4. 🤖 Basic LLM Chain — Groq AI Summary
+Sends structured data to Groq (LLaMA3-70b) with a carefully engineered prompt that:
+
+Flags critical non-delivery rates (>20%)
+Links COD pending payments to undelivered shipments
+Identifies worst performing segment
+Generates actionable recommendations
+5. 📧 Gmail — Send Report
+Sends a formatted HTML email to the operations team with a data snapshot table and AI-generated summary.
+
 🤖 GenAI Usage
 Input
-Shipment metrics
-Payment status
-Employee handling data
-Customer & membership details
-Output
-Daily automated summaries
-AI-based explanations for delays and payment issues
-Example Output
+Structured JSON with shipment metrics:
 
-“Shipment SH_1023 is delayed due to international transit time. Payment is pending as it is COD and delivery is incomplete. The assigned employee is managing multiple international shipments, contributing to the delay.”
+Total/Delivered/Not Delivered counts
+Segment breakdown (Domestic/International, Express/Regular)
+Payment collected and pending (COD + Card)
+Prompt Strategy
+The prompt instructs the LLM to:
 
-📊 Key Insights
-Most shipments fall under 80–100 kg category impacting cost
-Domestic shipments have higher delivery success rates
-COD payments are a major contributor to pending revenue
-Certain employees handle disproportionately higher workloads
+Treat >20% non-delivery as a CRITICAL bottleneck
+Link COD pending to undelivered shipments (not flag separately)
+Flag card payment pending as independent financial concern
+Identify worst performing segment by delivery rate
+Output concise plain paragraph — no headers or bullets
 📸 Screenshots
-Power BI Dashboard
 n8n Workflow
-Automated Report Output
+<img width="1277" height="516" alt="objective 1 workflow" src="https://github.com/user-attachments/assets/c49d4fe8-ae0e-46b5-a4c9-7f41f5623561" />
 
-(Add images here in your GitHub repo)
+Automated Report Output
+<img width="576" height="620" alt="objective 1 output" src="https://github.com/user-attachments/assets/e9c0cdac-eb0c-4367-9352-633bea2d4c6f" />
+
 
 🛠️ Tech Stack
 Tool	Purpose
@@ -81,6 +74,8 @@ Add data source (CSV/SQL)
 Configure GenAI API
 Set triggers (cron/webhook)
 Activate workflows for automated reporting
+<img width="576" height="620" alt="objective 1 output" src="https://github.com/user-attachments/assets/61b259e1-a3e9-457b-8ced-5fbd24698005" />
+
 🎯 Conclusion
 Reduced manual reporting effort by ~35–40%
 Enabled real-time insights and automated decision support
