@@ -1,0 +1,187 @@
+{
+  "name": "logistics summary",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "daysInterval": 10,
+              "triggerAtHour": 13
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        224,
+        -96
+      ],
+      "id": "9b1c4b58-9ee1-422f-bb51-9150522d74c8",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://drive.usercontent.google.com/uc?id=19le9ESDufhR1c0oTLwWsalxqVF-fsZG3&export=download",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        432,
+        -96
+      ],
+      "id": "76072b04-f631-4a86-a649-936cb18d83c3",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a logistics operations analyst writing a daily report for an operations manager.\n\nHere is today's shipment data:\n\nOverall:\n- Total Shipments: {{ $json.totalShipments }}\n- Delivered: {{ $json.delivered }} ({{ $json.deliveryRate }}%)\n- Not Delivered: {{ $json.notDelivered }}\n\nSegment Performance:\n- Domestic Express: {{ $json.domesticExpress }} total, \n  {{ $json.domesticExpressDelivered }} delivered ({{ $json.domesticExpressRate }}%), \n  {{ $json.domesticExpressNotDelivered }} not delivered\n- Domestic Regular: {{ $json.domesticRegular }} total, \n  {{ $json.domesticRegularDelivered }} delivered ({{ $json.domesticRegularRate }}%), \n  {{ $json.domesticRegularNotDelivered }} not delivered\n- International Express: {{ $json.internationalExpress }} total, \n  {{ $json.internationalExpressDelivered }} delivered ({{ $json.internationalExpressRate }}%), \n  {{ $json.internationalExpressNotDelivered }} not delivered\n- International Regular: {{ $json.internationalRegular }} total, \n  {{ $json.internationalRegularDelivered }} delivered ({{ $json.internationalRegularRate }}%), \n  {{ $json.internationalRegularNotDelivered }} not delivered\n\nPayments:\n- Collected: ₹{{ $json.paymentCollected }}\n- Pending COD: ₹{{ $json.pendingCOD }}\n- Pending Card: ₹{{ $json.pendingCard }}\n- Total Pending: ₹{{ $json.totalPending }}\n\nCritical Analysis Rules:\n- Any non-delivery rate above 20% is a serious operational bottleneck.\n  Flag it as CRITICAL and lead with it.\n- Identify the worst performing segment by delivery rate and call it out specifically.\n- Pending COD is directly linked to non-delivered shipments —\n  connect these two, do not treat them separately.\n- Pending Card payments are independent of delivery —\n  flag these as a separate financial concern.\n- Do not say payment collection is good if \n  a large portion of shipments are still undelivered.\n\nWrite a short, manager-friendly daily summary that:\n1. Opens with overall delivery rate and flags CRITICAL \n   if non-delivery exceeds 20%\n2. Calls out the worst performing segment specifically\n3. Links COD pending to undelivered shipments naturally\n4. Flags card payment pending as independent concern\n5. Ends with 2 sharp actionable recommendations\n\nKeep it concise, professional, plain paragraph format.\nNo bullet points, no headers, no bold text. Max 100 words.",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        848,
+        -96
+      ],
+      "id": "2a21b5d8-7e47-4c8e-8871-5f2c4bad6f97",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        848,
+        160
+      ],
+      "id": "3affb9f5-26a0-4906-8253-9d14a76def23",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "XhiJvHlLec8RNPiu",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "=purswanisiddharth25@gmail.com",
+        "subject": "=📦 Daily Logistics Report — {{ $now.format('DD ') }}",
+        "message": "=<div style=\"font-family:Arial,sans-serif;max-width:650px;margin:auto;padding:24px;border:1px solid #e0e0e0;border-radius:8px;\">\n\n  <h2 style=\"color:#2c3e50;border-bottom:2px solid #3498db;padding-bottom:8px;\">\n    📦 Daily Logistics Performance Report\n  </h2>\n\n  <p style=\"color:#555;font-size:14px;\">\n    📅 <strong>Date:</strong> {{ $now.format('DD') }}\n  </p>\n\n  <div style=\"background:#f4f6f8;padding:16px;border-radius:6px;margin:16px 0;\">\n    <h3 style=\"color:#2980b9;margin-top:0;\">📊 Quick Snapshot</h3>\n    <table style=\"width:100%;font-size:14px;color:#333;border-collapse:collapse;\">\n      <tr style=\"border-bottom:1px solid #ddd;\">\n        <td style=\"padding:6px;\">🚚 Total Shipments</td>\n        <td><strong>{{ $('Code').first().json.totalShipments }}</strong></td>\n      </tr>\n      <tr style=\"border-bottom:1px solid #ddd;\">\n        <td style=\"padding:6px;\">✅ Delivered</td>\n        <td><strong>{{ $('Code').first().json.delivered }} ({{ $('Code').first().json.deliveryRate }}%)</strong></td>\n      </tr>\n      <tr style=\"border-bottom:1px solid #ddd;\">\n        <td style=\"padding:6px;\">❌ Not Delivered</td>\n        <td><strong>{{ $('Code').first().json.notDelivered }}</strong></td>\n      </tr>\n      <tr style=\"border-bottom:1px solid #ddd;\">\n        <td style=\"padding:6px;\">🏠 Domestic Express</td>\n        <td><strong>{{ $('Code').first().json.domesticExpressDelivered }}/{{ $('Code').first().json.domesticExpress }} ({{ $('Code').first().json.domesticExpressRate }}%)</strong></td>\n      </tr>\n      <tr style=\"border-bottom:1px solid #ddd;\">\n        <td style=\"padding:6px;\">🏠 Domestic Regular</td>\n        <td><strong>{{ $('Code').first().json.domesticRegularDelivered }}/{{ $('Code').first().json.domesticRegular }} ({{ $('Code').first().json.domesticRegularRate }}%)</strong></td>\n      </tr>\n      <tr style=\"border-bottom:1px solid #ddd;\">\n        <td style=\"padding:6px;\">🌍 International Express</td>\n        <td><strong>{{ $('Code').first().json.internationalExpressDelivered }}/{{ $('Code').first().json.internationalExpress }} ({{ $('Code').first().json.internationalExpressRate }}%)</strong></td>\n      </tr>\n      <tr style=\"border-bottom:1px solid #ddd;\">\n        <td style=\"padding:6px;\">🌍 International Regular</td>\n        <td><strong>{{ $('Code').first().json.internationalRegularDelivered }}/{{ $('Code').first().json.internationalRegular }} ({{ $('Code').first().json.internationalRegularRate }}%)</strong></td>\n      </tr>\n      <tr style=\"border-bottom:1px solid #ddd;\">\n        <td style=\"padding:6px;\">💰 Payment Collected</td>\n        <td><strong>₹{{ $('Code').first().json.paymentCollected }}</strong></td>\n      </tr>\n      <tr style=\"border-bottom:1px solid #ddd;\">\n        <td style=\"padding:6px;\">⏳ Pending COD</td>\n        <td><strong>₹{{ $('Code').first().json.pendingCOD }}</strong></td>\n      </tr>\n      <tr>\n        <td style=\"padding:6px;\">💳 Pending Card</td>\n        <td><strong>₹{{ $('Code').first().json.pendingCard }}</strong></td>\n      </tr>\n    </table>\n  </div>\n\n  <div style=\"background:#fff8e1;padding:16px;border-radius:6px;margin:16px 0;border-left:4px solid #f39c12;\">\n    <h3 style=\"color:#e67e22;margin-top:0;\">🤖 AI Summary & Recommendations</h3>\n    <p style=\"color:#333;line-height:1.8;white-space:pre-line;\">{{ $json.text }}</p>\n  </div>\n\n  <p style=\"font-size:12px;color:#aaa;margin-top:24px;border-top:1px solid #eee;padding-top:12px;\">\n    This report was auto-generated by your n8n Logistics Workflow.\n  </p>\n\n</div>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1200,
+        -96
+      ],
+      "id": "9f6b0169-db9f-4bb0-b465-373478c9eea3",
+      "name": "Send a message",
+      "webhookId": "728b4201-ed4f-4af2-be32-9a5a3e77fa72",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "a5jbPNdNbqGYTPfB",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const rawText = $input.first().json.data;\n\nconst lines = rawText.split('\\n').filter(line => line.trim() !== '');\nconst result = {};\n\nfor (const line of lines) {\n  const [key, value] = line.split(',');\n  if (key && value) {\n    result[key.trim()] = Number(value.trim());\n  }\n}\n\nreturn [{\n  json: {\n    // Core\n    totalShipments: result['Total Shipments'],\n    delivered: result['Delivered'],\n    notDelivered: result['Not Delivered'],\n\n    // Segment Totals\n    domesticShipment: result['Domestic Shipment'],\n    internationalShipment: result['International Shipment'],\n    domesticExpress: result['Domestic Express'],\n    domesticRegular: result['Domestic Regular'],\n    internationalExpress: result['International Express'],\n    internationalRegular: result['International Regular'],\n\n    // Delivered per Segment\n    domesticExpressDelivered: result['Domestic Express Delivered'],\n    domesticRegularDelivered: result['Domestic Regular Delivered'],\n    internationalExpressDelivered: result['International Express Delivered'],\n    internationalRegularDelivered: result['International Regular Delivered'],\n\n    // Payments\n    paymentCollected: result['Payment collected'],\n    pendingCOD: result['Payment Remaining: COD'],\n    pendingCard: result['Payment Remaining: Card Payment'],\n\n    // Derived\n    deliveryRate: ((result['Delivered'] / result['Total Shipments']) * 100).toFixed(1),\n    totalPending: result['Payment Remaining: COD'] + result['Payment Remaining: Card Payment'],\n\n    // Segment Delivery Rates\n    domesticExpressRate: ((result['Domestic Express Delivered'] / result['Domestic Express']) * 100).toFixed(1),\n    domesticRegularRate: ((result['Domestic Regular Delivered'] / result['Domestic Regular']) * 100).toFixed(1),\n    internationalExpressRate: ((result['International Express Delivered'] / result['International Express']) * 100).toFixed(1),\n    internationalRegularRate: ((result['International Regular Delivered'] / result['International Regular']) * 100).toFixed(1),\n\n    // Not Delivered per Segment\n    domesticExpressNotDelivered: result['Domestic Express'] - result['Domestic Express Delivered'],\n    domesticRegularNotDelivered: result['Domestic Regular'] - result['Domestic Regular Delivered'],\n    internationalExpressNotDelivered: result['International Express'] - result['International Express Delivered'],\n    internationalRegularNotDelivered: result['International Regular'] - result['International Regular Delivered'],\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        640,
+        -96
+      ],
+      "id": "6591c9a3-511e-4679-ab28-2fb80e685021",
+      "name": "Code"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "0b6b4ece-d459-45c8-b5ff-899e64a70f6d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "491e4b92e06ef3f522e704f633a201f41c86dcc046074222172bf0c78b0693a1"
+  },
+  "id": "RKuZZeErGrWc4Bre",
+  "tags": []
+}
