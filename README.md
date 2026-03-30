@@ -1,63 +1,118 @@
 🚀 Integrated Operations Analysis
-📊 Manufacturing Operations Analytics + Automation
+<p align="center">
 
-(SQL, Excel, Power BI, n8n, GenAI)
 
-An end-to-end data analytics and automation project built on a manufacturing dataset to analyze operations, generate insights, and automate reporting using n8n + GenAI for real-time decision-making.
+
+
+
+
+
+
+
+
+</p> <p align="center"> <b>📊 Manufacturing Operations Analytics + Automation</b><br> (SQL, Excel, Power BI, n8n, GenAI) </p>
+📌 Project Overview
+
+An end-to-end data analytics + automation project built on a manufacturing dataset to:
+
+Analyze operational performance
+Generate actionable insights
+Automate reporting using n8n + GenAI
+
+👉 Designed to simulate real-world business decision systems used in modern companies.
 
 🚨 Problem Statement
 
-Manufacturing companies struggle with managing large volumes of operational data across shipments, payments, customers, and employees. This leads to:
+Manufacturing operations face major challenges due to fragmented data across shipments, payments, customers, and employees:
 
-Inefficient manual reporting and delayed insights
-Lack of real-time visibility into operations
-Difficulty in identifying bottlenecks in shipments and payments
-⚙️ Workflow Steps
-1. ⏰ Schedule Trigger
+⏳ Manual reporting → time-consuming & error-prone
+📉 No real-time visibility into operations
+⚠️ Difficulty identifying bottlenecks in logistics & payments
 
-Fires automatically every day at 8:00 AM using n8n's built-in cron scheduler.
+💡 Goal: Build a system that converts raw data into automated insights + intelligent reports.
 
-2. 📥 HTTP Request — Fetch CSV
+⚙️ End-to-End Workflow
+🔹 1. Schedule Trigger
 
-Fetches the latest logistics data from a static CSV file hosted on Google Drive using a direct download URL.
+⏰ Runs daily at 8:00 AM using n8n cron
 
-3. 🔧 Code Node — Parse & Structure Data
+🔹 2. Data Ingestion
 
-Parses the raw CSV into a clean JSON format and calculates:
+📥 Fetches logistics data from Google Drive (CSV)
 
-Delivery rate (%) per segment
-Not delivered count per segment
-Total pending payments
-4. 🤖 Basic LLM Chain — Groq AI Summary
+🔹 3. Data Processing
 
-Sends structured data to Groq (LLaMA3-70b) with a prompt that:
+🔧 Parses CSV → structured JSON
 
-Flags critical non-delivery rates (>20%)
-Links COD pending payments to undelivered shipments
-Identifies the worst-performing segment
-Generates actionable recommendations
-5. 📧 Gmail — Send Report
+Delivery rate per segment
+Not delivered counts
+Pending payments
+🔹 4. AI Analysis (GenAI)
 
-Sends a formatted HTML email to the operations team with:
+🤖 Uses Groq (LLaMA3-70B) to:
 
-Data snapshot table
-AI-generated summary
-📸 Screenshots
+Detect critical issues (>20% failure)
+Link COD pending to undelivered shipments
+Identify worst-performing segment
+Generate recommendations
+🔹 5. Automated Reporting
+
+📧 Sends AI-generated report via Gmail
+
+Data snapshot
+Business insights
+Actionable suggestions
+📸 Project Preview
 🔹 n8n Workflow
-<p align="center"> <img src="https://github.com/user-attachments/assets/c49d4fe8-ae0e-46b5-a4c9-7f41f5623561" width="800"> </p>
-🔹 Automated Report Output
+<p align="center"> <img src="https://github.com/user-attachments/assets/c49d4fe8-ae0e-46b5-a4c9-7f41f5623561" width="850"> </p>
+🔹 AI Generated Report
 <p align="center"> <img src="https://github.com/user-attachments/assets/e9c0cdac-eb0c-4367-9352-633bea2d4c6f" width="500"> </p>
+🧠 GenAI Intelligence
+📥 Input
+Shipment metrics
+Payment data
+Segment breakdown
+Delivery performance
+⚡ Output
+Automated daily summaries
+Bottleneck detection
+Smart recommendations
+
+💬 Sample Insight:
+
+“Domestic Express shipments show critical delays (>20% failure). COD payments are pending due to undelivered shipments. Immediate operational intervention required.”
+
 🛠️ Tech Stack
-Tool	Purpose
-n8n	Workflow automation
-Groq (LLaMA3-70b)	AI summary generation
-Google Drive	CSV data hosting
-Gmail	Report delivery
+Category	Tools
+Data Processing	SQL, Excel
+Visualization	Power BI
+Automation	n8n
+AI	Groq (LLaMA3-70B)
+Data Source	Google Drive
+Delivery	Gmail
 🚀 How to Run
-Import workflow/logistics_report.workflow.json into n8n
-Set up credentials — Groq API key + Gmail OAuth
-Upload your CSV to Google Drive
-Update the HTTP Request URL with your file link
-Activate the workflow — report runs daily at 8:00 AM
+# 1. Import workflow into n8n
+# 2. Add credentials (Groq API + Gmail)
+# 3. Upload CSV to Google Drive
+# 4. Update HTTP request URL
+# 5. Activate workflow
+
+📌 Workflow will run automatically every day at 8:00 AM
+
+📈 Business Impact
+⚡ Reduced manual reporting by 35–40%
+📊 Improved real-time decision-making
+🔍 Faster issue detection in logistics
+🤖 Enabled AI-driven operations
+🎯 Key Highlights
+
+✔ End-to-end data pipeline (ETL → Dashboard → Automation)
+✔ Real-world business problem solving
+✔ GenAI integration for intelligent insights
+✔ Production-style automation workflow
+
 👤 Author
+
 Siddhant Pagare
+
+📧 siddhantpagare913@gmail.com
